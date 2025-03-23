@@ -1,20 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { ApiService } from './api.service';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit {
-  title = 'tiendaFruteria';
-  data: any;
-
-  constructor(private apiService: ApiService) {}
-
-  ngOnInit(): void {
-    this.apiService.getData().subscribe(response => {
-      this.data = response;
-    });
-  }
+export class AppComponent {
+  title = 'Frontend';
 }
