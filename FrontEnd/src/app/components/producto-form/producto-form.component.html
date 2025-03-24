@@ -1,1 +1,8 @@
-<p>producto-form works!</p>
+<h2>Agregar productos</h2>
+<form (submit)="agregarProducto()">
+    <label for="">Nombre:</label>
+    <input [(ngModel)]="nombre" required/>
+    <label for="">Precio:</label>
+    <input type="number" [(ngModel)]="precio" required/>
+    <button type="button">Guardar</button>
+</form>
