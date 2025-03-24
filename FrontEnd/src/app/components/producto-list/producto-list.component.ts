@@ -1,52 +1,67 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { ProductoService } from '../../services/producto.service'; 
-import * as boostrap from 'boostrap';
+import { ProductoService } from '../../services/producto.service';
+import { ProductoFormComponent } from '../producto-form/producto-form.component';
+import { isPlatformBrowser } from '@angular/common';
+
 
 @Component({
   selector: 'app-producto-list',
-  //standalone:true,
-  //imports: [CommonModule],
   templateUrl: './producto-list.component.html',
-  styleUrl: './producto-list.component.css'
+  styleUrls: ['./producto-list.component.css'],
+  imports: [CommonModule, ProductoFormComponent]
 })
-export class ProductoListComponent implements OnInit{
+export class ProductoListComponent implements OnInit {
   productos: any[] = [];
-  modalInstance: any
+  modalInstance: any;
+  isBrowser: boolean;
 
-  constructor(private productoService: ProductoService,
-              private router:Router
-  ) {}
+  constructor(
+    private productoService: ProductoService,
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   ngOnInit(): void {
     this.obtenerProductos();
-    /*this.productoService.getProductos().subscribe(productos => {
-      console.log(productos);
-    });*/
   }
-
   obtenerProductos(): void {
     this.productoService.getProductos().subscribe(productos => {
-      console.log(productos);
+      this.productos = productos;
     });
   }
 
-  eliminarProducto(id: number): void{
-    if(confirm("seguro quieres eliminar?")){
-      this.productoService.eliminarProducto(id).subscribe(()=>{
+  eliminarProducto(id: number): void {
+    if (confirm("¿Seguro quieres eliminar este producto?")) {
+      this.productoService.eliminarProducto(id).subscribe(() => {
         this.obtenerProductos();
       });
     }
   }
 
   abrirModal(): void {
-    const modalElement = document.getElementById("modalProduct");
-    if(modalElement){
-      this.modalInstance = new boostrap.Modal(modalElement);
-      this.modalInstance.show();
+    if (this.isBrowser) {
+      const modalElement = document.getElementById("modalProduct");
+      if (modalElement) {
+        import('bootstrap').then(({ Modal }) => {
+          this.modalInstance = new Modal(modalElement);
+          this.modalInstance.show();
+        });
+      }
     }
-    //this.router.navigate(["/agregarProducto"])
   }
+  
 
+  private loadBootstrap() {
+    if (typeof window !== 'undefined') {
+      import('bootstrap').then(() => {
+        console.log('Bootstrap cargado');
+      }).catch((error) => {
+        console.error('Error cargando Bootstrap:', error);
+      });
+    }
+  }
 }

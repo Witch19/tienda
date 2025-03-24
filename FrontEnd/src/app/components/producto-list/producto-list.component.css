@@ -12,6 +12,19 @@ h2{
     color: #6A0572;
 }
 
+.add{
+    margin-left: 542px;
+    margin-top: -67px;
+    background: transparent;
+    border: none;
+}
+
+.modal-title{
+    font-weight: bold;
+    color: #6A0572 ;
+    margin-left: 61px;
+}
+
 table{
     width: 100%;
     border-collapse: collapse;

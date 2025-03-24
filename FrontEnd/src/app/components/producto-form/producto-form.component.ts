@@ -11,19 +11,20 @@ import { ProductoService } from '../../services/producto.service';
   styleUrl: './producto-form.component.css'
 })
 export class ProductoFormComponent {
-  nombre="";
-  precio=0;
+  producto={
+    nombre: "",
+    precio: 0
+  }
 
   constructor(private productoService: ProductoService){}
 
-  agregarProducto(): void{
-    const newProduct = {nombre:this.nombre,
-                        precio:this.precio
+  saveProduct(): void{
+    const newProduct = {nombre:this.producto.nombre,
+                        precio:this.producto.precio
                        };
     this.productoService.crearProducto(newProduct).subscribe(()=>{
       alert("Producro agregado correctamente");
-      this.nombre="";
-      this.precio=0;
+      this.producto ={nombre: "", precio: 0};
     })
   }
 

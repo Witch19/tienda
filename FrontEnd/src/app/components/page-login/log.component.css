@@ -14,14 +14,14 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    margin-left: 483px;
-    transform: translate(-50%, -50%);
-    background: rgba(255, 255, 255, 0.9);
+    width: 320px;
     padding: 20px;
+    margin-left: 483px;
     border-radius: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    transform: translate(-50%, -50%);
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
-    width: 300px;
 }
 
 .form-group {

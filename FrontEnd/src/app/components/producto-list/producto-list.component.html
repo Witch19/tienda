@@ -1,6 +1,7 @@
 <div class="container">
-  <h2>Lista de Productos</h2>
-  <button class="btn btn-primary mb-3" (click)="abrirModal()">➕</button>
+    <h2>Lista de Productos</h2>
+    <button class="btn btn-primary mb-3 add" (click)="abrirModal()">➕</button>
+
   <table border="1">
     <thead>
       <tr>
@@ -27,7 +28,7 @@
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title"> Añadir Producto </h5>
+          <h5 class="modal-title"> Nuevo producto </h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
         </div>
         <div class="modal-body">
