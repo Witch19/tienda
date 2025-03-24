@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProductService.Data;
 using ProductService.Models;
+using System.Collections.Generic;
 
 namespace ProductService.Controllers
 {
@@ -9,53 +10,63 @@ namespace ProductService.Controllers
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
-        private readonly ProductContext _context;
+        /*private readonly ProductContext _context;
 
         public ProductsController(ProductContext productContext)
         {
             _context = productContext;
-        }
+        }*/
+
+        private static readonly List<Product> _productos = new List<Product>
+        {
+            new Product{ Id= 1, Name = "Transferencias", Price= 0.00},
+            new Product{ Id= 2, Name = "Pago de servicios", Price= 0.41},
+            new Product{ Id= 3, Name = "Pedir una nueva tarjeta", Price= 5}
+        };
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public ActionResult<IEnumerable<Product>> GetProducts()
         {
-            return await _context.Products.ToListAsync(); // Usar _context.Products
+            return Ok(_productos); 
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        public ActionResult<Product> GetProduct(int id)
         {
-            var producto = await _context.Products.FindAsync(id); // Usar _context.Products
+            /*var productoF = New Product { Id= id, Name = "Producto", Price= 99.99}
+            return Ok(productoF);*/
+            var producto = -productos.Fin(p=> p.id == id); 
             if (producto == null) return NotFound();
-            return producto;
+            return Ok(productos);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Product>> CreateProduct(Product producto)
+        public ActionResult<Product> CreateProduct(Product producto)
         {
-            _context.Products.Add(producto); // Usar _context.Products
-            await _context.SaveChangesAsync();
+            producto.Id = _productos.Count + 1;
+            _productos.Add(producto); 
+            //await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetProduct), new { id = producto.Id }, producto);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(int id, Product producto)
+        public IActionResult UpdateProduct(int id, Product producto)
         {
-            if (id != producto.Id) return BadRequest();
-
-            _context.Entry(producto).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            var index = _productos.FindIndex(p => p.Id == id);
+            if(index== -1){
+                return NotFound();
+            }
+            _productos[index]=producto;
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduct(int id)
+        public IActionResult DeleteProduct(int id)
         {
-            var producto = await _context.Products.FindAsync(id); // Usar _context.Products
+            var producto = -productos.Fin(p=> p.id == id);
             if (producto == null) return NotFound();
 
-            _context.Products.Remove(producto);
-            await _context.SaveChangesAsync();
+            _productos.Remove(producto);
             return NoContent();
         }
     }

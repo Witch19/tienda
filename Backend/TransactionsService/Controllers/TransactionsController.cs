@@ -19,31 +19,31 @@ namespace TransactionsService.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Transaccion>>> GetTransactions()
         {
-            return await _context.Transacciones.ToListAsync(); // Cambié a Transacciones
+            return await _context.Transacciones.ToListAsync(); 
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Transaccion>> GetTransaction(int id) // Cambié a Transaccion
+        public async Task<ActionResult<Transaccion>> GetTransaction(int id) 
         {
-            var transaccion = await _context.Transacciones.FindAsync(id); // Cambié a Transacciones
+            var transaccion = await _context.Transacciones.FindAsync(id); 
             if (transaccion == null) return NotFound();
             return transaccion;
         }
 
         [HttpPost]
-        public async Task<ActionResult<Transaccion>> CreateTransaction(Transaccion transaccion) // Cambié a Transaccion
+        public async Task<ActionResult<Transaccion>> CreateTransaction(Transaccion transaccion) 
         {
-            _context.Transacciones.Add(transaccion); // Cambié a Transacciones
+            _context.Transacciones.Add(transaccion); 
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetTransaction), new { id = transaccion.Id }, transaccion); // Cambié a Transaccion
+            return CreatedAtAction(nameof(GetTransaction), new { id = transaccion.Id }, transaccion); 
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTransaction(int id, Transaccion transaccion) // Cambié a Transaccion
+        public async Task<IActionResult> UpdateTransaction(int id, Transaccion transaccion)
         {
             if (id != transaccion.Id) return BadRequest();
 
-            _context.Entry(transaccion).State = EntityState.Modified; // Cambié a Transaccion
+            _context.Entry(transaccion).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return NoContent();
         }
@@ -51,10 +51,10 @@ namespace TransactionsService.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTransaction(int id)
         {
-            var transaccion = await _context.Transacciones.FindAsync(id); // Cambié a Transacciones
+            var transaccion = await _context.Transacciones.FindAsync(id); 
             if (transaccion == null) return NotFound();
 
-            _context.Transacciones.Remove(transaccion); // Cambié a Transacciones
+            _context.Transacciones.Remove(transaccion); 
             await _context.SaveChangesAsync();
             return NoContent();
         }
