@@ -1,0 +1,58 @@
+.container{
+    width: 50%;
+    margin: 50px auto;
+    text-align: center;
+    background-color: #F9F1F0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2{
+    color: #6A0572;
+}
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #FFF;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+th{
+    background-color: #ffdab9;
+    color: #6A0572;
+}
+
+.addProduct{
+    background-color: #ffb6c1;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.addProduct:hover{
+    background-color: #ff9aa2;
+}
+
+.deleteProduct{
+    background-color: #ff6961;
+    color: white;
+    padding: 10px;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.deleteProduct:hover{
+    background-color: #ff4c4c;
+}

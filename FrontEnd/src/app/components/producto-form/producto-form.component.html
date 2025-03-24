@@ -1,8 +1,11 @@
-<h2>Agregar productos</h2>
-<form (submit)="agregarProducto()">
-    <label for="">Nombre:</label>
-    <input [(ngModel)]="nombre" required/>
-    <label for="">Precio:</label>
-    <input type="number" [(ngModel)]="precio" required/>
-    <button type="button">Guardar</button>
+<form>
+    <div class="mb-3">
+        <label class="form-label" for="nombre">Nombre:</label>
+        <input id="nombre" name="nombre" class="form-control" type="text" [(ngModel)]="producto.nombre" required/>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="precio">Precio:</label>
+        <input id="precio" name="precio" class="form-contol" type="number" [(ngModel)]="producto.precio" required/>
+    </div>
+    <button class="btn btn-success" type="button" (click)="saveProduct()">Guardar</button>
 </form>

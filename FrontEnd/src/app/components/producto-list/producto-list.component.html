@@ -1,21 +1,40 @@
-<h2>Lista de Productos</h2>
-<table border="1">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Nombre</th>
-      <th>Precio</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let producto of productos">
-      <td>{{ producto.id }}</td>
-      <td>{{ producto.nombre }}</td>
-      <td>{{ producto.precio }}</td>
-      <td>
-        <button (click)="eliminarProducto(producto.id)">Eliminar</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="container">
+  <h2>Lista de Productos</h2>
+  <button class="btn btn-primary mb-3" (click)="abrirModal()">➕</button>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let producto of productos">
+        <td>{{ producto.id }}</td>
+        <td>{{ producto.nombre }}</td>
+        <td>{{ producto.precio }}</td>
+        <td>
+          <button class="deleteProduct" (click)="eliminarProducto(producto.id)">❌</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!--Modal de añadir producto-->
+  <div id="modalProduct" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Añadir Producto </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+        </div>
+        <div class="modal-body">
+          <app-producto-form></app-producto-form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
