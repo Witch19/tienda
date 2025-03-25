@@ -27,7 +27,7 @@ export class LogComponent {
       return;
     }
   
-    alert("Login exitoso");
+    //alert("Login exitoso");
     this.router.navigate(["/listaProducto"]);
   }
 }
