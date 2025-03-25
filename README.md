@@ -14,8 +14,8 @@
     npm install
     ng serve
 ### Para probar
-email: cualiquiera
-password:12345
+email: (cualiquiera)
+password:(12345)
 
 Evidencia:
 
