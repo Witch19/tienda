@@ -19,9 +19,9 @@ namespace ProductService.Controllers
 
         private static readonly List<Product> _productos = new List<Product>
         {
-            new Product{ Id= 1, Name = "Transferencias", Price= 0.00},
-            new Product{ Id= 2, Name = "Pago de servicios", Price= 0.41},
-            new Product{ Id= 3, Name = "Pedir una nueva tarjeta", Price= 5}
+            new Product{ Id= 1, Name = "Transferencias", Descripcion = "Aqui puedes pasar tu dinero si costo", Price= 0.00M},
+            new Product{ Id= 2, Name = "Pago de servicios", Descripcion = "Paga todo lo de tu casita", Price= 0.41M},
+            new Product{ Id= 3, Name = "Pedir una nueva tarjeta", Descripcion = "Si se te perdio, adquiere otra", Price= 5M, Stock=10}
         };
 
         [HttpGet]
@@ -33,11 +33,9 @@ namespace ProductService.Controllers
         [HttpGet("{id}")]
         public ActionResult<Product> GetProduct(int id)
         {
-            /*var productoF = New Product { Id= id, Name = "Producto", Price= 99.99}
-            return Ok(productoF);*/
-            var producto = -productos.Fin(p=> p.id == id); 
+            var producto = _productos.Find(p => p.Id == id); 
             if (producto == null) return NotFound();
-            return Ok(productos);
+            return Ok(producto); 
         }
 
         [HttpPost]
@@ -63,7 +61,7 @@ namespace ProductService.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct(int id)
         {
-            var producto = -productos.Fin(p=> p.id == id);
+            var producto = _productos.Find(p => p.Id == id); // Cambié de -productos.Fin a _productos.Find
             if (producto == null) return NotFound();
 
             _productos.Remove(producto);

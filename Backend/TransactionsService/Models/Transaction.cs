@@ -25,9 +25,6 @@ namespace TransactionsService.Models
         public string CodigoAutorizacion { get; set; } = string.Empty;
         public string IpTransaccion { get; set; } = string.Empty;
         public string Ubicacion { get; set; } = string.Empty;
-
-        public string AprobadoPor { get; set; }  = string.Empty;
-        public DateTime FechaAprobacion { get; set; } = DateTime.MinValue;
     }
 
 }

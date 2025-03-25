@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Http;
+using System.Text.Json;
+using System.Threading.Tasks;
 using TransactionsService.Data;
 using TransactionsService.Models;
 
@@ -10,32 +13,65 @@ namespace TransactionsService.Controllers
     public class TransactionsController : ControllerBase
     {
         private readonly TransactionsContext _context;
+        private readonly HttpClient _httpClient;
 
-        public TransactionsController(TransactionsContext transactionContext)
+        public TransactionsController(TransactionsContext context, IHttpClientFactory httpClientFactory)
         {
-            _context = transactionContext;
+            _context = context;
+            _httpClient = httpClientFactory.CreateClient("ProductService");
+        }
+
+        [HttpGet("products")]
+        public async Task<IActionResult> GetProducts()
+        {
+            var response = await _httpClient.GetAsync(""); // Llama a ProductService
+            if (!response.IsSuccessStatusCode)
+            {
+                return StatusCode((int)response.StatusCode, "Error al obtener productos");
+            }
+
+            var products = await response.Content.ReadAsStringAsync();
+            return Ok(products);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Transaccion>> CreateTransaction(Transaccion transaccion)
+        {
+            var response = await _httpClient.GetAsync("");
+            if (!response.IsSuccessStatusCode)
+            {
+                return StatusCode((int)response.StatusCode, "Error al obtener productos");
+            }
+
+            var productsJson = await response.Content.ReadAsStringAsync();
+            var productos = JsonSerializer.Deserialize<List<Producto>>(productsJson, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            var productoSeleccionado = productos?.FirstOrDefault();
+
+            if (productoSeleccionado == null)
+            {
+                return BadRequest("No hay productos disponibles.");
+            }
+
+            transaccion.TipoTransaccion = productoSeleccionado.Name;
+
+            _context.Transacciones.Add(transaccion);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetTransaction), new { id = transaccion.Id }, transaccion);
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Transaccion>>> GetTransactions()
         {
-            return await _context.Transacciones.ToListAsync(); 
+            return await _context.Transacciones.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Transaccion>> GetTransaction(int id) 
+        public async Task<ActionResult<Transaccion>> GetTransaction(int id)
         {
-            var transaccion = await _context.Transacciones.FindAsync(id); 
+            var transaccion = await _context.Transacciones.FindAsync(id);
             if (transaccion == null) return NotFound();
             return transaccion;
-        }
-
-        [HttpPost]
-        public async Task<ActionResult<Transaccion>> CreateTransaction(Transaccion transaccion) 
-        {
-            _context.Transacciones.Add(transaccion); 
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetTransaction), new { id = transaccion.Id }, transaccion); 
         }
 
         [HttpPut("{id}")]
@@ -51,12 +87,18 @@ namespace TransactionsService.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTransaction(int id)
         {
-            var transaccion = await _context.Transacciones.FindAsync(id); 
+            var transaccion = await _context.Transacciones.FindAsync(id);
             if (transaccion == null) return NotFound();
 
-            _context.Transacciones.Remove(transaccion); 
+            _context.Transacciones.Remove(transaccion);
             await _context.SaveChangesAsync();
             return NoContent();
         }
+    }
+
+    public class Producto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

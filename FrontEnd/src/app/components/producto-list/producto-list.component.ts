@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ProductoService } from '../../services/producto.service';
 import { ProductoFormComponent } from '../producto-form/producto-form.component';
 import { isPlatformBrowser } from '@angular/common';
-
+import { Product } from '../../services/producto.model';
 
 @Component({
   selector: 'app-producto-list',
@@ -27,10 +27,17 @@ export class ProductoListComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtenerProductos();
+    this.productoService.getActualizacionesProductos().subscribe(() => {
+      this.obtenerProductos();
+    });
   }
+
   obtenerProductos(): void {
     this.productoService.getProductos().subscribe(productos => {
+      console.log("Productos recibidos del backend:", productos);  
       this.productos = productos;
+    }, error => {
+      console.error("Error al obtener productos", error);
     });
   }
 
@@ -53,7 +60,7 @@ export class ProductoListComponent implements OnInit {
       }
     }
   }
-  
+
 
   private loadBootstrap() {
     if (typeof window !== 'undefined') {

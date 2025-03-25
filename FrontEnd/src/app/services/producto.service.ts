@@ -1,33 +1,40 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { Product } from './producto.model'; 
 
 @Injectable({
   providedIn: 'root',
 })
-
 export class ProductoService {
   private apiProducto = "http://localhost:5184/api/Products";
+  private productosActualizados = new Subject<void>();
 
   constructor(private http: HttpClient) {}
 
-  getProductos(): Observable<any[]>{
-    return this.http.get<any[]>(this.apiProducto);
+  getProductos(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.apiProducto);
+  }
+  
+
+  getProducto(id: number): Observable<Product> {
+    return this.http.get<Product>(`${this.apiProducto}/${id}`);
   }
 
-  getProducto(id: number): Observable<any>{
-    return this.http.get<any[]>(`${this.apiProducto}/${id}`);
+  crearProducto(producto: Product): Observable<Product> {
+    return this.http.post<Product>(this.apiProducto, producto).pipe(
+      tap(() => {
+        this.productosActualizados.next();  
+      })
+    );
   }
 
-  crearProducto(producto: any): Observable<any>{
-    return this.http.post<any>(this.apiProducto, producto);
+  getActualizacionesProductos(): Observable<void> {
+    return this.productosActualizados.asObservable();
   }
 
-  actualizarProducto(id: number, producto: any): Observable<any>{
-    return this.http.put<any>(`${this.apiProducto}/${id}`, producto);
-  }
-
-  eliminarProducto(id: number): Observable<any>{
-    return this.http.delete<any>(`${this.apiProducto}/${id}`);
+  eliminarProducto(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiProducto}/${id}`);
   }
 }

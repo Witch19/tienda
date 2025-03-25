@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductoService } from '../../services/producto.service';
+import { Product } from '../../services/producto.model'; 
 
 @Component({
   selector: 'app-producto-form',
@@ -11,21 +12,21 @@ import { ProductoService } from '../../services/producto.service';
   styleUrl: './producto-form.component.css'
 })
 export class ProductoFormComponent {
-  producto={
-    nombre: "",
-    precio: 0
-  }
+  producto: Product = {  
+    id: 0, 
+    name: '',
+    descripcion: '',
+    price: 0, 
+    stock: 0
+  };
 
   constructor(private productoService: ProductoService){}
 
-  saveProduct(): void{
-    const newProduct = {nombre:this.producto.nombre,
-                        precio:this.producto.precio
-                       };
-    this.productoService.crearProducto(newProduct).subscribe(()=>{
-      alert("Producro agregado correctamente");
-      this.producto ={nombre: "", precio: 0};
-    })
+  saveProduct(): void {
+    this.productoService.crearProducto(this.producto).subscribe(() => {
+      alert("Producto agregado correctamente");
+      this.producto = { id: 0, name: "", descripcion: "", price: 0, stock: 0 };
+    });
   }
 
 }

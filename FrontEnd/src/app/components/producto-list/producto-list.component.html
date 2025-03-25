@@ -7,20 +7,25 @@
       <tr>
         <th>ID</th>
         <th>Nombre</th>
+        <th>Descripcion</th>
+        <th>Categoria</th>
         <th>Precio</th>
         <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let producto of productos">
-        <td>{{ producto.id }}</td>
-        <td>{{ producto.nombre }}</td>
-        <td>{{ producto.precio }}</td>
+      <tr *ngFor="let product of productos"> 
+        <td>{{ product.id }}</td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.descripcion}}</td>
+        <td>{{ product.categoria}}</td>
+        <td>{{ product.price }}</td> 
         <td>
-          <button class="deleteProduct" (click)="eliminarProducto(producto.id)">❌</button>
+          <button class="deleteProduct" (click)="eliminarProducto(product.id)">❌</button>
         </td>
-      </tr>
+      </tr>    
     </tbody>
+    
   </table>
 
   <!--Modal de añadir producto-->
