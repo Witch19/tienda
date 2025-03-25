@@ -11,9 +11,5 @@
         <label class="form-label" for="precio">Precio:</label>
         <input id="precio" name="precio" class="form-control" type="number" [(ngModel)]="producto.price" required/>
     </div>
-    <div class="mb-3">
-        <label class="form-label" for="stock">Stock:</label>
-        <input id="stock" name="stock" class="form-control" type="number" [(ngModel)]="producto.stock" required/>
-    </div>
     <button class="btn btn-success" type="button" (click)="saveProduct()">Guardar</button>
 </form>
